@@ -45,7 +45,7 @@
             <label for="username">Numero 2: </label>
             <input type="text" name="numero2" />
         </div>
-        <input type="submit" value="Sumar" />
+        <input type="submit" value="Sumar Numeros" />
     </form><br>
 
     <%! int resultado = 0;
