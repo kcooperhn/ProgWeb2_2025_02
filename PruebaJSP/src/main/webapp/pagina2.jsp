@@ -24,7 +24,7 @@
         ingresoCorrecto = true;
     }else{
         session.invalidate();
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("index2.jsp");
     }
 
 

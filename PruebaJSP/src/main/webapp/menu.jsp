@@ -29,7 +29,7 @@
 <body>
 <div class="menu">
     <a href='pagina2.jsp'>Pagina 2</a>
-    <a href='index.jsp'>Inicio</a>
+    <a href='index2.jsp'>Inicio</a>
     <a href='www.google.com' target=_blank>Externo</a>
 </div>
 </body>
