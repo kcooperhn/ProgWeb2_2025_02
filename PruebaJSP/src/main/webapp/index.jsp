@@ -15,6 +15,7 @@
 <body>
 <%! List<String> paises = new ArrayList<>(); %>
 <%
+    if(!paises.isEmpty()) paises.clear();
     paises.add("Honduras");
     paises.add("Mexico");
     paises.add("Nicaragua");

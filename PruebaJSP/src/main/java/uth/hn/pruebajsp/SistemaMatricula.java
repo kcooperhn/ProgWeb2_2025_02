@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "matricula", value = "/matricula")
+@WebServlet(name = "alumnos_matricula", value = "/alumnos_matricula")
 public class SistemaMatricula extends HttpServlet {
     public void init() {
 
@@ -28,11 +28,11 @@ public class SistemaMatricula extends HttpServlet {
     }
 
     private void doProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession sesion = request.getSession();
-        List<Alumno> alumnos = (List<Alumno>) sesion.getAttribute("alumnos");
+        HttpSession session = request.getSession();
+        List<Alumno> alumnos = (List<Alumno>) session.getAttribute("alumnos");
         if(alumnos == null) {
             alumnos = new ArrayList<>();
-            sesion.setAttribute("alumnos", alumnos);
+            session.setAttribute("alumnos", alumnos);
         }
         String accion = request.getParameter("accion");
         if("delete".equals(accion)) {
@@ -45,7 +45,7 @@ public class SistemaMatricula extends HttpServlet {
             String email = request.getParameter("email");
             alumnos.add(new Alumno(identidad, nombre, apellido, email));
         }
-        sesion.setAttribute("alumnos", alumnos);
+        session.setAttribute("alumnos", alumnos);
         response.sendRedirect("matricula.jsp");
     }
 

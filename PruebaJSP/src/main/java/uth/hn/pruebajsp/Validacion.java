@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,11 +31,13 @@ public class Validacion extends HttpServlet {
         response.setContentType("text/html");
         String usuario = request.getParameter("username");
         String clave = request.getParameter("password");
-        if(usuario!= null && !usuario.isEmpty() && usuario.equals(clave.toUpperCase())){
+        if(usuario!= null && !usuario.isEmpty() && clave.equals(clave.toUpperCase()) && usuario.equalsIgnoreCase(clave)){
             response.sendRedirect(request.getContextPath() + "/matricula.jsp");
             request.getSession().setAttribute("usuario", usuario);
         }else{
-            response.sendRedirect(request.getContextPath() + "/indexindex.jsp");
+            HttpSession session = request.getSession();
+            session.invalidate();
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
         }
     }
 
