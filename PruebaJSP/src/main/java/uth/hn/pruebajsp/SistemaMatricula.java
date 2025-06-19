@@ -34,19 +34,26 @@ public class SistemaMatricula extends HttpServlet {
             alumnos = new ArrayList<>();
             session.setAttribute("alumnos", alumnos);
         }
+        String mensaje = "";
+        String estiloMensaje = "alert alert-warning alert-dismissible fade show";
         String accion = request.getParameter("accion");
         if("delete".equals(accion)) {
             String identidad = request.getParameter("identidad");
             alumnos.removeIf(id -> id.getIdentidad().equals(identidad));
+            mensaje = "Alumno eliminado";
+            System.out.println("Alumno eliminado: "+identidad);
         }else if("create".equals(accion)) {
             String identidad = request.getParameter("identidad");
             String nombre = request.getParameter("nombre");
             String apellido = request.getParameter("apellido");
             String email = request.getParameter("email");
-            alumnos.add(new Alumno(identidad, nombre, apellido, email));
+            alumnos.add(new Alumno(nombre, apellido, email, identidad));
+            mensaje = "Alumno Matriculado";
+            estiloMensaje = "alert alert-success alert-dismissible fade show";
+            System.out.println("Alumno Matriculado: "+identidad);
         }
         session.setAttribute("alumnos", alumnos);
-        response.sendRedirect("matricula.jsp");
+        response.sendRedirect("matricula.jsp?message="+mensaje+"&style="+estiloMensaje);
     }
 
     public void destroy() {

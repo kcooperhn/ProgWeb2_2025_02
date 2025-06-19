@@ -23,25 +23,39 @@
             alumnos = new ArrayList<>();
             session.setAttribute("alumnos", alumnos);
         }
-    %>
+        String textoMsg = request.getParameter("message");
+        String estiloMsg = request.getParameter("style");
 
-    <form action="alumnos_matricula" method="post" class="mb-3">
-        <div class="row">
-            <div class="col-md-4">
+        if(textoMsg != null && estiloMsg != null){
+    %>
+    <div class="<%= estiloMsg %>" role="alert">
+        <%= textoMsg %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+
+    <%
+        }
+    %>
+    <form action="alumnos_matricula" method="post" class="row g-4">
+            <div class="col-auto form-group">
+                <label for="identidad" class="visually-hidden">Identidad:</label>
                 <input type="text" name="identidad" class="form-control" placeholder="Identidad" required>
             </div>
-            <div class="col-md-4">
+            <div class="col-auto form-group">
+                <label for="nombre" class="visually-hidden">Nombre:</label>
                 <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
             </div>
-            <div class="col-md-4">
+            <div class="col-auto form-group">
+                <label for="apellido" class="visually-hidden">Apellido:</label>
                 <input type="text" name="apellido" class="form-control" placeholder="Apellido" required>
             </div>
-            <div class="col-md-4">
-                <input type="email" name="correo" class="form-control" placeholder="nombre@correo" required>
+            <div class="col-auto form-group">
+                <label for="email" class="visually-hidden">Correo:</label>
+                <input type="email" name="email" class="form-control" placeholder="nombre@correo" required>
             </div>
-            <div class="col-md-4">
-                <button type="submit" name="action" value="create" class="btn btn-success w-100">Matricular</button>
-            </div>
+        <div class="col-auto">
+                <button type="submit" name="accion" value="create" class="btn btn-success w-100">Matricular</button>
         </div>
     </form>
 
@@ -65,7 +79,7 @@
                     <td>
                         <form action="alumnos_matricula" method="post" class="d-inline">
                             <input type="hidden" name="identidad" value="<%= al.getIdentidad() %>">
-                            <button type="submit" name="action" value="delete">Eliminar</button>
+                            <button type="submit" name="accion" value="delete">Eliminar</button>
                         </form>
                     </td>
                 </tr>
