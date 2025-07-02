@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+    <h:head>
+        <title>Reservaciones</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:megaMenu orientation="horizontal" autoDisplay="false">
+                <p:submenu label="Opciones" icon="pi pi-fw pi-video">
+                    <p:column>
+                        <p:submenu label="Reservaciones">
+                            <p:menuitem value="Ver Reservas" outcome="listadoreservas.xhtml" update="messages" ajax="false"
+                                        icon="pi pi-calendar"/>
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+
+                <f:facet name="end">
+                    <div class="ui-input-icon-left mr-2">
+                        <i class="pi pi-fw pi-search" />
+                        <p:inputText placeholder="Buscar"/>
+                    </div>
+                    <p:button value="Salir" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"/>
+                </f:facet>
+            </p:megaMenu>
+
+
+            <p:panelGrid columns="4" layout="flex"
+                         columnClasses="col-12 md:col-3 xl:col-2, col-12 md:col-9 xl:col-4, col-12 md:col-3 xl:col-2, col-12 md:col-9 xl:col-4"
+                         contentStyleClass="align-items-baseline ui-fluid">
+                <p:outputLabel value="Identidad" for="identidad"/>
+                <p:inputText id="identidad" value="#{ReservacionesBean.reserva.identidad}"/>
+
+                <p:outputLabel value="Nombre" for="nombre"/>
+                <p:inputText id="nombre" value="#{ReservacionesBean.reserva.nombre}"/>
+
+                <p:outputLabel value="Salon" for="salon"/>
+                <p:selectOneMenu id="salon" value="#{ReservacionesBean.reserva.salon}">
+                    <f:selectItem itemLabel="Salon A" itemValue="A"/>
+                    <f:selectItem itemLabel="Salon B" itemValue="B"/>
+                    <f:selectItem itemLabel="Salon C" itemValue="C"/>
+                    <f:selectItem itemLabel="Salon D" itemValue="D"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Inicio Reserva (yyyy-MM-ddThh:mm)" for="inicio"/>
+                <p:inputText id="inicio" value="#{ReservacionesBean.reserva.inicio}"/>
+
+                <p:outputLabel value="Fin Reserva (yyyy-MM-ddThh:mm)" for="fin"/>
+                <p:inputText id="fin" value="#{ReservacionesBean.reserva.fin}"/>
+
+                <p:commandButton value="Reservar" update="mensaje" process="@all" action="#{ReservacionesBean.reservar}" styleClass="rounded-button"/>
+                <h:messages id="mensaje" showSummary="true"/>
+
+            </p:panelGrid>
+
+        </h:form>
+    </h:body>
+</f:view>
+</html>

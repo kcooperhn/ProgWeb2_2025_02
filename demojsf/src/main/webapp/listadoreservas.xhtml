@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+    <h:head>
+        <title>Ver Reservaciones</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:megaMenu orientation="horizontal" autoDisplay="false">
+                <p:submenu label="Opciones" icon="pi pi-fw pi-video">
+                    <p:column>
+                        <p:submenu label="Reservaciones">
+                            <p:menuitem value="Reservar" outcome="index.xhtml" update="messages" ajax="false"
+                                        icon="pi pi-calendar"/>
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+
+                <f:facet name="end">
+                    <div class="ui-input-icon-left mr-2">
+                        <i class="pi pi-fw pi-search" />
+                        <p:inputText placeholder="Buscar"/>
+                    </div>
+                    <p:button value="Salir" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"/>
+                </f:facet>
+            </p:megaMenu>
+
+            <p:dataTable value="#{ReservacionesBean.reservas}" var="r" widgetVar="reservasTable"
+                         emptyMessage="Actualmente no existen reservas" filteredValue="#{ReservacionesBean.reservasFiltradas}"
+                            id="reservasTable">
+                <p:column headerText="Identidad" sortBy="r.identidad" filterBy="r.identidad">
+                    <h:outputText value="#{r.identidad}"/>
+                </p:column>
+
+                <p:column headerText="Nombre" sortBy="r.nombre" filterBy="r.nombre">
+                    <h:outputText value="#{r.nombre}"/>
+                </p:column>
+
+                <p:column headerText="Salon" sortBy="r.salon" filterBy="r.salon">
+                    <h:outputText value="#{r.salon}"/>
+                </p:column>
+
+                <p:column headerText="Inicio de Reserva" sortBy="r.inicio" filterBy="r.inicio">
+                    <h:outputText value="#{r.inicio}"/>
+                </p:column>
+
+                <p:column headerText="Fin de Reserva" sortBy="r.fin" filterBy="r.fin">
+                    <h:outputText value="#{r.fin}"/>
+                </p:column>
+
+                <p:column style="width:3rem;text-align: center">
+                    <p:commandButton update=":form:reservasTable" icon="pi pi-trash" title="Eliminar">
+                        <f:setPropertyActionListener value="#{r}"
+                                                     target="#{ReservacionesBean.cancelar(r)}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</f:view>
+</html>
