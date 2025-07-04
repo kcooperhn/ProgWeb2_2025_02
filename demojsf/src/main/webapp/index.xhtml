@@ -29,7 +29,7 @@
             </p:megaMenu>
 
 
-            <p:panelGrid columns="4" layout="flex"
+            <p:panelGrid columns="4" layout="flex" id="form-grid"
                          columnClasses="col-12 md:col-3 xl:col-2, col-12 md:col-9 xl:col-4, col-12 md:col-3 xl:col-2, col-12 md:col-9 xl:col-4"
                          contentStyleClass="align-items-baseline ui-fluid">
                 <p:outputLabel value="Identidad" for="identidad"/>
@@ -46,17 +46,22 @@
                     <f:selectItem itemLabel="Salon D" itemValue="D"/>
                 </p:selectOneMenu>
 
-                <p:outputLabel value="Inicio Reserva (yyyy-MM-ddThh:mm)" for="inicio"/>
-                <p:inputText id="inicio" value="#{ReservacionesBean.reserva.inicio}"/>
+                <p:outputLabel value="Inicio Reserva" for="finicio"/>
+                <p:datePicker id="finicio" value="#{ReservacionesBean.reserva.finicio}" mindate="#{ReservacionesBean.minDateTime}"
+                              showButtonBar="true">
+                    <p:ajax listener="#{ReservacionesBean.onStartDateChange}" update="ffin"/>
 
-                <p:outputLabel value="Fin Reserva (yyyy-MM-ddThh:mm)" for="fin"/>
-                <p:inputText id="fin" value="#{ReservacionesBean.reserva.fin}"/>
+                </p:datePicker>
 
-                <p:commandButton value="Reservar" update="mensaje" process="@all" action="#{ReservacionesBean.reservar}" styleClass="rounded-button"/>
+                <p:outputLabel value="Fin Reserva" for="ffin"/>
+                <p:datePicker id="ffin" value="#{ReservacionesBean.reserva.ffin}"
+                              mindate="#{ReservacionesBean.minEndDateTime}"
+                              showButtonBar="true"
+                validatorMessage="Seleccione una fecha posterior a la fecha de inicio +1h" />
+
+                <p:commandButton value="Reservar" update="mensaje,form-grid" process="@all" action="#{ReservacionesBean.reservar}" styleClass="rounded-button"/>
                 <h:messages id="mensaje" showSummary="true"/>
-
             </p:panelGrid>
-
         </h:form>
     </h:body>
 </f:view>

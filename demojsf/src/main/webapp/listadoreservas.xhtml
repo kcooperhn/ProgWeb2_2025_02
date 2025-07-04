@@ -52,9 +52,8 @@
                 </p:column>
 
                 <p:column style="width:3rem;text-align: center">
-                    <p:commandButton update=":form:reservasTable" icon="pi pi-trash" title="Eliminar">
-                        <f:setPropertyActionListener value="#{r}"
-                                                     target="#{ReservacionesBean.cancelar(r)}"/>
+                    <p:commandButton update=":form:reservasTable" icon="pi pi-trash" title="Eliminar" actionListener="#{ReservacionesBean.cancelar(r)}">
+
                     </p:commandButton>
                 </p:column>
             </p:dataTable>

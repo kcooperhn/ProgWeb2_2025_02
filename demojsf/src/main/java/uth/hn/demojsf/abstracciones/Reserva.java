@@ -8,7 +8,9 @@ public class Reserva implements Serializable {
     private String nombre;
     private String salon;
     private String inicio;
+    private LocalDateTime finicio;
     private String fin;
+    private LocalDateTime ffin;
 
     public Reserva() {
         this.identidad = "";
@@ -16,6 +18,8 @@ public class Reserva implements Serializable {
         this.salon = "";
         this.inicio = "";
         this.fin = "";
+        this.finicio = LocalDateTime.now();
+        this.ffin = LocalDateTime.now().plusHours(1);
     }
 
     public Reserva(String identidad, String nombre, String salon, String inicio, String fin) {
@@ -64,5 +68,21 @@ public class Reserva implements Serializable {
 
     public void setFin(String fin) {
         this.fin = fin;
+    }
+
+    public LocalDateTime getFinicio() {
+        return finicio;
+    }
+
+    public void setFinicio(LocalDateTime finicio) {
+        this.finicio = finicio;
+    }
+
+    public LocalDateTime getFfin() {
+        return ffin;
+    }
+
+    public void setFfin(LocalDateTime ffin) {
+        this.ffin = ffin;
     }
 }
