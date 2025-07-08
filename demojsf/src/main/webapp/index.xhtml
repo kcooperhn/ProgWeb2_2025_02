@@ -6,63 +6,101 @@
 <f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
     <h:head>
         <title>Reservaciones</title>
+        <style>
+            .transition-all {
+                transition: all 0.3s ease;
+            }
+
+            .custom-message {
+                background-color: #2a2a2a;
+                color: #ffffff;
+                border-radius: 5px;
+                padding: 10px;
+                margin-top: 5px;
+                text-align: center;
+                font-weight: bold;
+                transition: opacity 0.3s ease;
+            }
+            .custom-message .pi {
+                margin-right: 5px;
+            }
+        </style>
     </h:head>
-    <h:body>
-        <h:form>
-            <p:megaMenu orientation="horizontal" autoDisplay="false">
-                <p:submenu label="Opciones" icon="pi pi-fw pi-video">
-                    <p:column>
-                        <p:submenu label="Reservaciones">
-                            <p:menuitem value="Ver Reservas" outcome="listadoreservas.xhtml" update="messages" ajax="false"
-                                        icon="pi pi-calendar"/>
-                        </p:submenu>
-                    </p:column>
-                </p:submenu>
+    <h:body styleClass="p-3">
+        <p:panel styleClass="ui-panel-shadow" style="max-width: 1200px; margin: 0 auto;">
+            <h:form>
+                <p:growl id="mensaje" sticky="true" autoUpdate="true">
+                    <p:effect type="highlight" event="load" />
+                </p:growl>
 
-                <f:facet name="end">
-                    <div class="ui-input-icon-left mr-2">
-                        <i class="pi pi-fw pi-search" />
-                        <p:inputText placeholder="Buscar"/>
-                    </div>
-                    <p:button value="Salir" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"/>
-                </f:facet>
-            </p:megaMenu>
+                <p:megaMenu orientation="horizontal" autoDisplay="false" styleClass="ui-shadow">
+                    <p:submenu label="Opciones" icon="pi pi-fw pi-video">
+                        <p:column>
+                            <p:submenu label="Reservaciones">
+                                <p:menuitem value="Ver Reservas" outcome="listadoreservas.xhtml" update="messages" ajax="false" icon="pi pi-calendar"/>
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+                    <f:facet name="end">
+                        <div class="flex align-items-center gap-2">
+                            <p:inputText placeholder="Buscar" styleClass="ui-inputfield ui-corner-all" style="width: 200px;"/>
+                            <p:commandButton value="Salir" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info ui-button-raised ui-corner-all"/>
+                        </div>
+                    </f:facet>
+                </p:megaMenu>
+
+                <p:panel header="Nueva Reservación" styleClass="ui-panel-shadow" style="margin-top: 20px;">
+                    <p:panelGrid columns="4" layout="flex" id="form-grid"
+                                 columnClasses="col-12 md:col-2 xl:col-2, col-12 md:col-4 xl:col-4, col-12 md:col-2 xl:col-2, col-12 md:col-4 xl:col-4"
+                                 styleClass="ui-fluid" contentStyleClass="align-items-baseline gap-3">
+                        <p:outputLabel value="Identidad" for="identidad"/>
+                        <p:inputText id="identidad" value="#{ReservacionesBean.reserva.identidad}"
+                                     styleClass="ui-inputfield ui-corner-all transition-all"
+                                     required="true" requiredMessage="Ingrese la identidad"/>
+
+                        <p:outputLabel value="Nombre" for="nombre"/>
+                        <p:inputText id="nombre" value="#{ReservacionesBean.reserva.nombre}"
+                                     styleClass="ui-inputfield ui-corner-all transition-all"
+                                     required="true" requiredMessage="Ingrese el nombre"/>
+
+                        <p:outputLabel value="Salón" for="salon"/>
+                        <p:selectOneMenu id="salon" value="#{ReservacionesBean.reserva.salon}"
+                                         styleClass="ui-inputfield ui-corner-all transition-all">
+                            <f:selectItem itemLabel="Seleccione un salón" itemValue="" disabled="true"/>
+                            <f:selectItem itemLabel="Salón A" itemValue="A"/>
+                            <f:selectItem itemLabel="Salón B" itemValue="B"/>
+                            <f:selectItem itemLabel="Salón C" itemValue="C"/>
+                            <f:selectItem itemLabel="Salón D" itemValue="D"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Inicio Reserva" for="finicio"/>
+                        <p:datePicker id="finicio" value="#{ReservacionesBean.reserva.finicio}"
+                                      mindate="#{ReservacionesBean.minDateTime}"
+                                      showButtonBar="true"
+                                      styleClass="ui-inputfield ui-corner-all transition-all">
+                            <p:ajax listener="#{ReservacionesBean.onStartDateChange}" update="ffin"/>
+                        </p:datePicker>
+
+                        <p:outputLabel value="Fin Reserva" for="ffin"/>
+                        <p:datePicker id="ffin" value="#{ReservacionesBean.reserva.ffin}"
+                                      mindate="#{ReservacionesBean.minEndDateTime}"
+                                      showButtonBar="true"
+                                      styleClass="ui-inputfield ui-corner-all transition-all"
+                                      validatorMessage="Seleccione una fecha posterior a la fecha de inicio +1h"/>
+
+                        <p:commandButton value="Reservar" update="mensaje,form-grid" process="@all"
+                                         action="#{ReservacionesBean.reservar}"
+                                         styleClass="ui-button-raised ui-button-success ui-corner-all transition-all"/>
 
 
-            <p:panelGrid columns="4" layout="flex" id="form-grid"
-                         columnClasses="col-12 md:col-3 xl:col-2, col-12 md:col-9 xl:col-4, col-12 md:col-3 xl:col-2, col-12 md:col-9 xl:col-4"
-                         contentStyleClass="align-items-baseline ui-fluid">
-                <p:outputLabel value="Identidad" for="identidad"/>
-                <p:inputText id="identidad" value="#{ReservacionesBean.reserva.identidad}"/>
 
-                <p:outputLabel value="Nombre" for="nombre"/>
-                <p:inputText id="nombre" value="#{ReservacionesBean.reserva.nombre}"/>
 
-                <p:outputLabel value="Salon" for="salon"/>
-                <p:selectOneMenu id="salon" value="#{ReservacionesBean.reserva.salon}">
-                    <f:selectItem itemLabel="Salon A" itemValue="A"/>
-                    <f:selectItem itemLabel="Salon B" itemValue="B"/>
-                    <f:selectItem itemLabel="Salon C" itemValue="C"/>
-                    <f:selectItem itemLabel="Salon D" itemValue="D"/>
-                </p:selectOneMenu>
 
-                <p:outputLabel value="Inicio Reserva" for="finicio"/>
-                <p:datePicker id="finicio" value="#{ReservacionesBean.reserva.finicio}" mindate="#{ReservacionesBean.minDateTime}"
-                              showButtonBar="true">
-                    <p:ajax listener="#{ReservacionesBean.onStartDateChange}" update="ffin"/>
 
-                </p:datePicker>
-
-                <p:outputLabel value="Fin Reserva" for="ffin"/>
-                <p:datePicker id="ffin" value="#{ReservacionesBean.reserva.ffin}"
-                              mindate="#{ReservacionesBean.minEndDateTime}"
-                              showButtonBar="true"
-                validatorMessage="Seleccione una fecha posterior a la fecha de inicio +1h" />
-
-                <p:commandButton value="Reservar" update="mensaje,form-grid" process="@all" action="#{ReservacionesBean.reservar}" styleClass="rounded-button"/>
-                <h:messages id="mensaje" showSummary="true"/>
-            </p:panelGrid>
-        </h:form>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </p:panel>
     </h:body>
 </f:view>
 </html>

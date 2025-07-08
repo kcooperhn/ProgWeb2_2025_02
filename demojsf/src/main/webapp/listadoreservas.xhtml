@@ -43,12 +43,14 @@
                     <h:outputText value="#{r.salon}"/>
                 </p:column>
 
-                <p:column headerText="Inicio de Reserva" sortBy="r.inicio" filterBy="r.inicio">
-                    <h:outputText value="#{r.inicio}"/>
+                <p:column headerText="Inicio de Reserva" sortBy="r.finicio" filterBy="r.finicio">
+                    <h:outputText value="#{r.finicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Tegucigalpa"/>
+                    </h:outputText>
                 </p:column>
 
-                <p:column headerText="Fin de Reserva" sortBy="r.fin" filterBy="r.fin">
-                    <h:outputText value="#{r.fin}"/>
+                <p:column headerText="Fin de Reserva" sortBy="r.ffin" filterBy="r.ffin">
+                    <h:outputText value="#{r.ffin}"/>
                 </p:column>
 
                 <p:column style="width:3rem;text-align: center">
