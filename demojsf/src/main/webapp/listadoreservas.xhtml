@@ -6,6 +6,36 @@
 <f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
     <h:head>
         <title>Ver Reservaciones</title>
+        <style>
+            .salon-badge {
+                border-radius: 2px;
+                padding: .25em .5rem;
+                text-transform: uppercase;
+                font-weight: 700;
+                font-size: 12px;
+                letter-spacing: .3px
+            }
+
+            .salon-badge.a {
+                background: #c8e6c9;
+                color: #256029
+            }
+
+            .salon-badge.b {
+                background: #ffcdd2;
+                color: #c63737
+            }
+
+            .salon-badge.c {
+                background: #feedaf;
+                color: #8a5340
+            }
+
+            .salon-badge.d {
+                background: #89d5f1;
+                color: #5044d5
+            }
+        </style>
     </h:head>
     <h:body>
         <h:form id="form">
@@ -40,17 +70,19 @@
                 </p:column>
 
                 <p:column headerText="Salon" sortBy="r.salon" filterBy="r.salon">
-                    <h:outputText value="#{r.salon}"/>
+                    <h:outputText value="#{r.salon}" styleClass="salon-badge #{r.salon.toLowerCase()}"/>
                 </p:column>
 
                 <p:column headerText="Inicio de Reserva" sortBy="r.finicio" filterBy="r.finicio">
                     <h:outputText value="#{r.finicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Tegucigalpa"/>
+                        <f:converter converterId="myCustomDateConverter"/>
                     </h:outputText>
                 </p:column>
 
                 <p:column headerText="Fin de Reserva" sortBy="r.ffin" filterBy="r.ffin">
-                    <h:outputText value="#{r.ffin}"/>
+                    <h:outputText value="#{r.ffin}">
+                        <f:converter converterId="myCustomDateConverter"/>
+                    </h:outputText>
                 </p:column>
 
                 <p:column style="width:3rem;text-align: center">
