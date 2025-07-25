@@ -1,0 +1,38 @@
+package cineplus.hn.movies.repository;
+
+import cineplus.hn.movies.model.PeliculasResponse;
+import retrofit2.Call;
+import retrofit2.Response;
+
+import java.io.IOException;
+
+public class DatabaseRepositoryImpl {
+    private static DatabaseRepositoryImpl instance;
+    private DatabaseClient client;
+
+    private DatabaseRepositoryImpl(String url, Long timeout){
+        client = new DatabaseClient(url, timeout);
+    }
+
+    //PATRON SINGLETON
+    public static DatabaseRepositoryImpl getInstance(String url, Long timeout){
+        if(instance == null){
+            synchronized (DatabaseRepositoryImpl.class){
+                if(instance == null){
+                    instance = new DatabaseRepositoryImpl(url, timeout);
+                }
+            }
+        }
+        return instance;
+    }
+
+    public PeliculasResponse consultarPeliculas() throws IOException {
+        Call<PeliculasResponse> call = client.getInstance().listMovies();
+        Response<PeliculasResponse> response = call.execute();//EJECUTA EL LLAMADO A LA BASE DE DATOS
+        if(response.isSuccessful()){//CODIGO (STATUS CODE HTTP 200)
+            return response.body();
+        }else{
+            return null;
+        }
+    }
+}
