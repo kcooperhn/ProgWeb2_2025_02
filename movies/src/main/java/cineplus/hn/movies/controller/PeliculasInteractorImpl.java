@@ -32,7 +32,16 @@ public class PeliculasInteractorImpl implements PeliculasInteractor {
 
     @Override
     public void crearPelicula(Movie pelicula) {
-
+        try{
+            boolean creado = this.repositorio.crearPeliculas(pelicula);
+            if(creado){
+                this.vista.mostrarMensajeExito("Pelicula creada correctamente!");
+            }else{
+                this.vista.mostrarMensajeError("Error al crear la pelicula");
+            }
+        }catch(Exception error){
+            error.printStackTrace();
+        }
     }
 
     @Override

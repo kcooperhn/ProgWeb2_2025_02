@@ -1,6 +1,8 @@
 package cineplus.hn.movies.repository;
 
+import cineplus.hn.movies.model.Movie;
 import cineplus.hn.movies.model.PeliculasResponse;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -34,5 +36,11 @@ public class DatabaseRepositoryImpl {
         }else{
             return null;
         }
+    }
+
+    public boolean crearPeliculas(Movie nueva) throws IOException {
+        Call<ResponseBody> call = client.getInstance().createMovie(nueva);
+        Response<ResponseBody> response = call.execute();//EJECUTA EL LLAMADO A LA BASE DE DATOS
+        return response.isSuccessful();
     }
 }

@@ -17,7 +17,7 @@
             <p:toolbar>
                <p:toolbarGroup>
                   <p:commandButton value="Crear" icon="pi pi-plus" actionListener="#{MoviesBean.openNew}"
-                                   update=":dialogs:manage-movie-content" oncomplete="PF('manageProductDialog').show()"
+                                   update=":dialogs:manage-movie-content" oncomplete="PF('manageMovieDialog').show()"
                                    styleClass="ui-button-success" style="margin-right: .5rem">
                      <p:resetInput target=":dialogs:manage-movie-content" />
                   </p:commandButton>
@@ -51,7 +51,7 @@
                <p:column selectionBox="true" exportable="false"></p:column>
 
                <p:column headerText="Portada" exportable="false">
-                  <p:graphicImage name="images/product/#{movie.portada}" library="demo" styleClass="product-image" />
+                  <img src="#{movie.portada}" alt="portada" height="90px" class="product-image"/>
                </p:column>
                <p:column headerText="Nombre" sortBy="#{movie.nombre}" filterBy="#{movie.nombre}">
                   <h:outputText value="#{movie.nombre}" />
@@ -89,13 +89,17 @@
             </p:dataTable>
          </h:form>
 
-         <h:form id="dialogs">
+         <h:form id="dialogs" style="width: 60%">
             <p:dialog header="Movie Details" showEffect="fade" modal="true" widgetVar="manageMovieDialog"
                       responsive="true">
                <p:outputPanel id="manage-movie-content" class="ui-fluid">
                   <p:outputPanel rendered="#{not empty MoviesBean.selectedMovie}">
                      <p:graphicImage name="images/product/#{MoviesBean.selectedMovie.portada}" library="demo"
                                      styleClass="product-image" rendered="#{not empty MoviesBean.selectedMovie.portada}" />
+                     <div class="field">
+                        <p:outputLabel for="portada">Imagen</p:outputLabel>
+                        <p:inputText id="portada" value="#{MoviesBean.selectedMovie.portada}" required="true" />
+                     </div>
                      <div class="field">
                         <p:outputLabel for="name">Nombre</p:outputLabel>
                         <p:inputText id="name" value="#{MoviesBean.selectedMovie.nombre}" required="true" />
@@ -108,6 +112,10 @@
                         <div class="field col">
                            <p:outputLabel for="director">Director</p:outputLabel>
                            <p:inputText id="director" value="#{MoviesBean.selectedMovie.director}" />
+                        </div>
+                        <div class="field col">
+                           <p:outputLabel for="duracion">Duración</p:outputLabel>
+                           <p:inputText id="duracion" value="#{MoviesBean.selectedMovie.duracion}" />
                         </div>
                         <div class="field col">
                            <p:outputLabel for="estreno">Estreno</p:outputLabel>
@@ -131,7 +139,8 @@
 
                <f:facet name="footer">
                   <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{MoviesBean.guardarPelicula}"
-                                   update="manage-movie-content" process="manage-movie-content @this" />
+                                   update="manage-movie-content :form:dt-movies" process="manage-movie-content @this"
+                                   oncomplete="PF('manageMovieDialog').hide()" />
                   <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageMovieDialog').hide()"
                                    class="ui-button-secondary" type="button" />
                </f:facet>
@@ -140,7 +149,7 @@
             <p:confirmDialog widgetVar="deleteMovieDialog" showEffect="fade" width="300"
                              message="¿Eliminar la película?" header="Confirmar" severity="warn">
                <p:commandButton value="Si" icon="pi pi-check" actionListener="#{MoviesBean.eliminarPelicula}"
-                                process="@this" update=":form:delete-button"
+                                process="@this" update=":form:delete-button :form:dt-movies"
                                 oncomplete="PF('deleteMovieDialog').hide()" />
                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
                                 onclick="PF('deleteMovieDialog').hide()" />

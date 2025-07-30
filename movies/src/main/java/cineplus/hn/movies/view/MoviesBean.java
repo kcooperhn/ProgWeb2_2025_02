@@ -1,5 +1,7 @@
 package cineplus.hn.movies.view;
 
+import cineplus.hn.movies.controller.PeliculasInteractor;
+import cineplus.hn.movies.controller.PeliculasInteractorImpl;
 import cineplus.hn.movies.model.Movie;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
@@ -16,12 +18,17 @@ public class MoviesBean implements Serializable, PeliculasViewModel {
     private List<Movie> movies;
     private List<Movie> selectedMovies;
     private Movie selectedMovie;
+    private PeliculasInteractor controller;
 
     public MoviesBean() {
         this.movies = new ArrayList<>();
         this.selectedMovies = new ArrayList<>();
         this.selectedMovie = null;
+        controller = new PeliculasInteractorImpl(this);
+        controller.consultarPeliculas();
     }
+
+
 
     public void openNew() {
         this.selectedMovie = new Movie();
@@ -41,7 +48,11 @@ public class MoviesBean implements Serializable, PeliculasViewModel {
     }
 
     public void guardarPelicula() {
-
+        if(this.selectedMovie.getId() == 0){
+            controller.crearPelicula(this.selectedMovie);
+        }else{
+            controller.actualizarPelicula(this.selectedMovie);
+        }
     }
 
 
@@ -89,6 +100,11 @@ public class MoviesBean implements Serializable, PeliculasViewModel {
     @Override
     public void mostrarPeliculasDataTable(List<Movie> peliculas) {
         this.movies = peliculas;
+    }
+
+    @Override
+    public void refrescarPantalla() {
+        controller.consultarPeliculas();
     }
 
     @Override
