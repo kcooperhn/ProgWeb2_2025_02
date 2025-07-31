@@ -7,4 +7,5 @@ public interface PeliculasInteractor {
     void crearPelicula(Movie pelicula);
     void actualizarPelicula(Movie pelicula);
     void eliminarPelicula(int id);
+    void eliminarPeliculas(int[] ids);
 }

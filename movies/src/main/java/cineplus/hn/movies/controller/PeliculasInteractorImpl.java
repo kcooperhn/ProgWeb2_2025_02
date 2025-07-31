@@ -36,6 +36,7 @@ public class PeliculasInteractorImpl implements PeliculasInteractor {
             boolean creado = this.repositorio.crearPeliculas(pelicula);
             if(creado){
                 this.vista.mostrarMensajeExito("Pelicula creada correctamente!");
+                this.vista.refrescarPantalla();
             }else{
                 this.vista.mostrarMensajeError("Error al crear la pelicula");
             }
@@ -46,11 +47,49 @@ public class PeliculasInteractorImpl implements PeliculasInteractor {
 
     @Override
     public void actualizarPelicula(Movie pelicula) {
-
+        try{
+            boolean modificado = this.repositorio.actualizarPeliculas(pelicula);
+            if(modificado){
+                this.vista.mostrarMensajeExito("Pelicula actualizada correctamente!");
+                this.vista.refrescarPantalla();
+            }else{
+                this.vista.mostrarMensajeError("Error al actualizar la pelicula");
+            }
+        }catch(Exception error){
+            error.printStackTrace();
+        }
     }
 
     @Override
     public void eliminarPelicula(int id) {
+        try{
+            boolean eliminado = this.repositorio.eliminarPeliculas(id);
+            if(eliminado){
+                this.vista.mostrarMensajeExito("Pelicula eliminada correctamente!");
+                this.vista.refrescarPantalla();
+            }else{
+                this.vista.mostrarMensajeError("Error al eliminar la pelicula");
+            }
+        }catch(Exception error){
+            error.printStackTrace();
+        }
+    }
 
+    @Override
+    public void eliminarPeliculas(int[] ids) {
+        try{
+            for(int id : ids){
+                boolean eliminado = this.repositorio.eliminarPeliculas(id);
+                if(!eliminado){
+                    this.vista.mostrarMensajeError("Error al eliminar la pelicula");
+                    this.vista.refrescarPantalla();
+                    return;
+                }
+            }
+            this.vista.mostrarMensajeExito("Pelicula eliminada correctamente!");
+            this.vista.refrescarPantalla();
+        }catch(Exception error){
+            error.printStackTrace();
+        }
     }
 }

@@ -55,17 +55,16 @@ public class MoviesBean implements Serializable, PeliculasViewModel {
         }
     }
 
-
     public void eliminarPelicula() {
         this.movies.remove(this.selectedMovie);
+        this.controller.eliminarPelicula(this.selectedMovie.getId());
         this.selectedMovie = null;
-        mostrarMensaje("Pelicula eliminada correctamente!", FacesMessage.SEVERITY_INFO);
     }
 
     public void eliminarPeliculas() {
         this.movies.removeAll(this.selectedMovies);
+        this.controller.eliminarPeliculas(this.selectedMovies.stream().mapToInt(Movie::getId).toArray());
         this.selectedMovies = null;
-        mostrarMensaje("Peliculas eliminadas correctamente!", FacesMessage.SEVERITY_INFO);
     }
 
     private void mostrarMensaje(String mensaje, FacesMessage.Severity tipo) {

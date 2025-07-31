@@ -53,22 +53,22 @@
                <p:column headerText="Portada" exportable="false">
                   <img src="#{movie.portada}" alt="portada" height="90px" class="product-image"/>
                </p:column>
-               <p:column headerText="Nombre" sortBy="#{movie.nombre}" filterBy="#{movie.nombre}">
+               <p:column headerText="Nombre" sortBy="#{movie.nombre}" filterBy="#{movie.nombre}" filterMatchMode="contains">
                   <h:outputText value="#{movie.nombre}" />
                </p:column>
-               <p:column headerText="Director" sortBy="#{movie.director}" filterBy="#{movie.director}">
+               <p:column headerText="Director" sortBy="#{movie.director}" filterBy="#{movie.director}" filterMatchMode="contains">
                   <h:outputText value="#{movie.director}" />
                </p:column>
                <p:column headerText="Estreno" sortBy="#{movie.estreno}">
                   <h:outputText value="#{movie.estreno}" style="font-weight: 700"/>
                </p:column>
-               <p:column headerText="Descripcion" sortBy="#{movie.descripcion}" filterBy="#{movie.descripcion}">
+               <p:column headerText="Descripcion" sortBy="#{movie.descripcion}" filterBy="#{movie.descripcion}" filterMatchMode="contains">
                   <h:outputText value="#{movie.descripcion}" />
                </p:column>
                <p:column headerText="Duración" sortBy="#{movie.duracion}">
                   <h:outputText value="#{movie.duracion}" />
                </p:column>
-               <p:column headerText="Genero" sortBy="#{movie.genero}"
+               <p:column headerText="Genero" sortBy="#{movie.genero}" filterMatchMode="contains"
                          filterBy="#{movie.genero}">
                   <h:outputText value="#{movie.genero}" />
                </p:column>

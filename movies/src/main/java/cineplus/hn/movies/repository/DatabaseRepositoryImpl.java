@@ -43,4 +43,16 @@ public class DatabaseRepositoryImpl {
         Response<ResponseBody> response = call.execute();//EJECUTA EL LLAMADO A LA BASE DE DATOS
         return response.isSuccessful();
     }
+
+    public boolean actualizarPeliculas(Movie existente) throws IOException {
+        Call<ResponseBody> call = client.getInstance().updateMovie(existente);
+        Response<ResponseBody> response = call.execute();//EJECUTA EL LLAMADO A LA BASE DE DATOS
+        return response.isSuccessful();
+    }
+
+    public boolean eliminarPeliculas(int id) throws IOException {
+        Call<ResponseBody> call = client.getInstance().deleteMovie(id);
+        Response<ResponseBody> response = call.execute();//EJECUTA EL LLAMADO A LA BASE DE DATOS
+        return response.isSuccessful();
+    }
 }
